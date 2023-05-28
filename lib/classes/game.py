@@ -4,13 +4,31 @@ class Game:
         self._results = []
         self._players = []
         
+    @property
+    def title(self):
+        return self._title
+    
+    @title.setter
+    def title(self, title):
+        if not hasattr(self, 'title') and  len(title) > 0:
+            self._title = title
+        else:
+            raise Exception
+
     def results(self, new_result=None):
         from classes.result import Result
-        pass
+        if new_result and isinstance(new_result, Result):
+            self._results.append(new_result)
+        return self._results
     
     def players(self, new_player=None):
         from classes.player import Player
-        pass
+        if new_player and isinstance(new_player, Player):
+            self._players.append(new_player)
+        return self._players
     
     def average_score(self, player):
-        pass
+        player_scores = [result.score for result in self._results if result.player == player]
+        if player_scores:
+            return sum(player_scores) / len(player_scores)
+        return 0
